@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en" class="bg-slate-900">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Google AI Studio App</title>
+    <script>
+      function showError(title, msg, stack) {
+        var div = document.createElement('div');
+        div.style.cssText = 'color:red; padding:20px; font-family:sans-serif; z-index:9999; position:relative; background: white; border: 2px solid red; margin: 10px; word-break: break-all;';
+        div.innerHTML = '<h3>' + title + ': ' + msg + '</h3><pre style="white-space:pre-wrap;">' + (stack || '') + '</pre>';
+        if (document.body) {
+          document.body.prepend(div);
+        } else {
+          document.addEventListener('DOMContentLoaded', function() { document.body.prepend(div); });
+        }
+      }
+      window.onerror = function(msg, url, line, col, error) {
+        showError('Error', msg + ' (' + url + ':' + line + ':' + col + ')', error ? error.stack : '');
+      };
+      window.addEventListener('unhandledrejection', function(event) {
+        showError('Promise Error', event.reason && event.reason.message ? event.reason.message : event.reason, event.reason ? event.reason.stack : '');
+      });
+    </script>
+  </head>
+  <body class="bg-slate-900 text-slate-200">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
